@@ -109,7 +109,7 @@ router.post('/transferBetweenCards', verifyToken, (req, res) => {
 
         // Verificar fondos en la tarjeta propia
         const getOwnCardBalanceQuery = `
-            SELECT balance FROM cards WHERE user_id = ? AND number = ?
+            SELECT card_balance FROM cards WHERE user_id = ? AND number = ?
         `;
         connection.execute(getOwnCardBalanceQuery, [userId, ownCard], (err, results) => {
             if (err || results.length === 0 || results[0].balance < amount) {
@@ -121,7 +121,7 @@ router.post('/transferBetweenCards', verifyToken, (req, res) => {
 
             // Deducir fondos de la tarjeta propia
             const deductOwnCardBalanceQuery = `
-                UPDATE cards SET balance = balance - ?
+                UPDATE cards SET card_balance = card_balance - ?
                 WHERE user_id = ? AND number = ?
             `;
             connection.execute(deductOwnCardBalanceQuery, [amount, userId, ownCard], (err) => {
@@ -134,7 +134,7 @@ router.post('/transferBetweenCards', verifyToken, (req, res) => {
 
                 // Añadir fondos a la tarjeta receptora
                 const addRecipientCardBalanceQuery = `
-                    UPDATE cards SET balance = balance + ?
+                    UPDATE cards SET card_balance = card_balance + ?
                     WHERE number = ?
                 `;
                 connection.execute(addRecipientCardBalanceQuery, [amount, endCard], (err) => {
