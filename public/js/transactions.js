@@ -5,21 +5,19 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (transactionsContainer && transactionsPlaceholder) {
         console.log('Containers found, fetching transactions...');
 
-        // Función para obtener los datos de la API
-        async function fetchData(apiEndpoint) {
-            const token = localStorage.getItem('token'); // Obtener el token JWT del localStorage
-            console.log('Fetching data with token:', token);
+        async function fetchTransactions() {
+            const token = localStorage.getItem('token');
+            console.log('Fetching transactions with token:', token);
 
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch('http://localhost:3000/api/transactions/getUserTransactions', {
                 headers: {
-                    'Authorization': token
+                    'Authorization': `Bearer ${token}`
                 },
                 credentials: 'include'
             });
 
-            console.log('API response status:', response.status);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                console.error('Failed to fetch transactions, status:', response.status);
             }
             return await response.json();
         }
@@ -36,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const userId = decodedToken.userId;
             console.log('Decoded userId from token:', userId);
 
-            const transactions = await fetchData('http://localhost:3000/api/transactions/getUserTransactions');
+            const transactions = await fetchTransactions();
             console.log('Transactions fetched:', transactions);
 
             if (transactions.length > 0) {
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                     const transactionElement = document.createElement('div');
                     transactionElement.className = 'transaction';
                     console.log('Appending transaction:', transaction);
-
                     transactionElement.innerHTML = `
                         <span class="transaction-icon">${transaction.user_id === userId ? '➖' : '➕'}</span>
                         <div class="transaction-details">

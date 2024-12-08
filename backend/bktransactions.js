@@ -7,11 +7,12 @@ router.get('/getUserTransactions', verifyToken, (req, res) => {
     const userId = req.userId; // ID del usuario autenticado
 
     const query = `
-        SELECT * FROM transactions 
+        SELECT id, type, date, description, amount, status, created_at, updated_at 
+        FROM transactions 
         WHERE user_id = ?
-        ORDER BY transaction_date DESC
+        ORDER BY created_at DESC
     `;
-    connection.execute(query, [userId, userId], (err, results) => {
+    connection.execute(query, [userId], (err, results) => {
         if (err) {
             console.error('Error fetching transactions:', err);
             return res.status(500).json({ message: 'Error fetching transactions' });

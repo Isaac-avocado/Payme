@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/public/css/body.css">
     <link rel="stylesheet" href="/public/css/movents.css">
     <link rel="stylesheet" href="/public/css/placeholder.css">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
     <title>Movements</title>
 </head>
 <body>
@@ -40,7 +42,7 @@
                 <img src="/public/imgs/clock-two_7546832.svg" alt="Dashboard Icon" class="nav-img"> 
                 <span class="nav-text">DASHBOARD</span> 
             </button> 
-            <button class="nav-btn" onclick="navigateTo('/src/views/movents.html')"> 
+            <button class="nav-btn" onclick="navigateTo('/src/views/movements.html')"> 
                 <img src="/public/imgs/time_16422146.png" alt="Movements Icon" class="nav-img"> 
                 <span class="nav-text">MOVEMENTS</span> 
             </button>
@@ -100,8 +102,6 @@
     </div>
     <script src="/public/js/btns.js"></script>
     <script src="/public/js/userName.js"></script>
-    <script src="/public/js/logout.js"></script>
-    <script src="/public/js/placeholder.js"></script>
-    <script src="/public/js/movements.js"></script> <!-- Añadir esta línea para cargar el script -->
+    <script src="/public/js/logout.js"></script> <!-- Añadir esta línea para cargar el nuevo script -->
 </body>
 </html>
