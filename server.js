@@ -9,6 +9,7 @@ const income = require('./backend/bkincome');
 const expenses = require('./backend/bkexpenses');
 const balance = require('./backend/bkbalance');
 const payments = require('./backend/bkpayments'); 
+const transactions = require('./backend/bktransactions');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/income', income);
 app.use('/api/expenses', expenses);
 app.use('/api/balance', balance);
 app.use('/api/payments', payments); 
+app.use('/api/transactions', transactions);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
