@@ -46,11 +46,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                     transactionElement.className = 'transaction';
                     console.log('Appending transaction:', transaction);
 
+                    // Asegurarse de que transaction.amount es un número
+                    const amount = parseFloat(transaction.amount);
+                    if (isNaN(amount)) {
+                        console.error('Transaction amount is not a number:', transaction.amount);
+                        return;
+                    }
+
+                    // Determinar el símbolo basado en el tipo de transacción
+                    const transactionIcon = transaction.type === 'income' ? '➕' : '➖';
+
                     transactionElement.innerHTML = `
-                        <span class="transaction-icon">${transaction.user_id === userId ? '➖' : '➕'}</span>
+                        <span class="transaction-icon">${transactionIcon}</span>
                         <div class="transaction-details">
-                            <p class="small-label">${transaction.user_id === userId ? 'To' : 'From'}</p>
-                            <p class="large-label">${transaction.description}</p>
+                            <p class="small-label">Type</p>
+                            <p class="large-label">${transaction.type}</p>
                         </div>
                         <div class="status">
                             <div class="status-circle ${transaction.user_id === userId ? 'red' : 'green'}"></div>
@@ -61,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                             <p class="small-label">Transaction ID</p>
                         </div>
                         <div class="amount-info">
-                            <p class="large-label">$${transaction.amount.toFixed(2)}</p>
+                            <p class="large-label">$${amount.toFixed(2)}</p>
                             <p class="small-label">${formatDate(transaction.created_at)}</p>
                         </div>
                     `;
